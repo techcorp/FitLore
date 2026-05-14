@@ -38,16 +38,26 @@ export async function submitOutfitAnalysis(
   payload.append("stylePreference", formData.stylePreference);
   payload.append("extraNotes", formData.extraNotes);
 
-  const response = await fetch(WEBHOOK_URL, {
-    method: "POST",
-    body: payload,
-  });
-
-  if (!response.ok) {
-    throw new Error(`Analysis failed: ${response.status} ${response.statusText}`);
+  let response: Response;
+  try {
+    response = await fetch(WEBHOOK_URL, {
+      method: "POST",
+      body: payload,
+    });
+  } catch (networkError) {
+    throw new Error("Unable to connect to the server. Please check that the backend service is running.");
   }
 
-  return response.json();
+  if (!response.ok) {
+    const statusText = response.status === 0 ? "Service unavailable" : response.statusText;
+    throw new Error(`Server returned an error: ${response.status} ${statusText}`);
+  }
+
+  try {
+    return await response.json();
+  } catch {
+    throw new Error("Received an invalid response from the server. Please ensure the backend is running correctly.");
+  }
 }
 
 // ============================================

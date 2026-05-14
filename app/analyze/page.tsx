@@ -10,13 +10,15 @@ import Select from "@/components/ui/Select";
 import Textarea from "@/components/ui/Textarea";
 import ImageUpload from "@/components/features/ImageUpload";
 import LoadingState from "@/components/features/LoadingState";
+import ErrorPopup from "@/components/features/ErrorPopup";
 import { submitOutfitAnalysis, saveImageToStorage, saveResultToStorage, fileToBase64 } from "@/lib/api";
 import { SEASONS, OCCASIONS, STYLE_PREFERENCES } from "@/lib/types";
 
 export default function AnalyzePage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("An unexpected error occurred. Please try again.");
 
   const [formData, setFormData] = useState({
     outfitImage: null as File | null,
@@ -43,7 +45,7 @@ export default function AnalyzePage() {
     if (!validateForm()) return;
 
     setIsLoading(true);
-    setError(null);
+    setShowError(false);
 
     try {
       const result = await submitOutfitAnalysis(formData);
@@ -52,7 +54,8 @@ export default function AnalyzePage() {
       saveResultToStorage(result);
       router.push("/result");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to analyze outfit. Please try again.");
+      setErrorMessage(err instanceof Error ? err.message : "Failed to analyze outfit. Please try again.");
+      setShowError(true);
     } finally {
       setIsLoading(false);
     }
@@ -140,11 +143,13 @@ export default function AnalyzePage() {
             </Card>
 
             {/* Error */}
-            {error && (
-              <div className="p-4 bg-[var(--error)]/10 border border-[var(--error)]/20 rounded-xl text-[var(--error)] text-sm">
-                {error}
-              </div>
-            )}
+            <ErrorPopup
+              isOpen={showError}
+              onClose={() => setShowError(false)}
+              title="Connection Error"
+              message={errorMessage}
+              type="error"
+            />
 
             {/* Submit */}
             <Button type="submit" size="lg" className="w-full">

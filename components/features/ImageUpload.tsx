@@ -9,7 +9,7 @@ interface ImageUploadProps {
 }
 
 const MAX_SIZE = 10 * 1024 * 1024; // 10MB
-const ACCEPTED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
+const ACCEPTED_TYPES = ["image/jpeg", "image/jpg", "image/png"];
 
 export default function ImageUpload({ onChange, error }: ImageUploadProps) {
   const [isDragging, setIsDragging] = useState(false);
@@ -18,7 +18,7 @@ export default function ImageUpload({ onChange, error }: ImageUploadProps) {
 
   const validateFile = (file: File): string | null => {
     if (!ACCEPTED_TYPES.includes(file.type)) {
-      return "Please upload a JPG, PNG, or WebP image";
+      return "Please upload a JPG or PNG image";
     }
     if (file.size > MAX_SIZE) {
       return "Image must be smaller than 10MB";
@@ -31,6 +31,7 @@ export default function ImageUpload({ onChange, error }: ImageUploadProps) {
       const validationError = validateFile(file);
       if (validationError) {
         setLocalError(validationError);
+        setPreview(null);
         return;
       }
       setLocalError(null);
@@ -130,7 +131,7 @@ export default function ImageUpload({ onChange, error }: ImageUploadProps) {
           <p className="mb-2 text-sm text-[var(--text-primary)]">
             <span className="font-semibold text-[var(--accent)]">Click to upload</span> or drag and drop
           </p>
-          <p className="text-xs text-[var(--text-tertiary)]">JPG, PNG, or WebP (max 10MB)</p>
+          <p className="text-xs text-[var(--text-tertiary)]">JPG or PNG (max 10MB)</p>
         </div>
         <input id="image-upload" type="file" className="hidden" accept={ACCEPTED_TYPES.join(",")} onChange={handleInputChange} />
       </label>
