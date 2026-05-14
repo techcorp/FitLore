@@ -63,21 +63,21 @@ export default function AnalyzePage() {
   return (
     <>
       <Navbar />
-      <main className="flex-1 pt-20 pb-12">
-        <div className="max-w-lg mx-auto px-4">
+      <main className="flex-1 pt-20 md:pt-24 pb-12">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6">
           {/* Page Header */}
-          <div className="text-center mb-8">
-            <h1 className="text-2xl sm:text-3xl font-bold mb-2">
+          <div className="text-center mb-8 md:mb-12">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
               Upload Your Outfit
             </h1>
-            <p className="text-sm text-[var(--text-secondary)]">
+            <p className="text-sm sm:text-base text-[var(--text-secondary)]">
               Let our AI analyze your style
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
             {/* Image Upload */}
-            <Card>
+            <Card className="p-4 sm:p-6">
               <ImageUpload
                 value={formData.outfitImage}
                 onChange={(file) => {
@@ -89,8 +89,8 @@ export default function AnalyzePage() {
             </Card>
 
             {/* Form Fields */}
-            <Card>
-              <div className="space-y-4">
+            <Card className="p-4 sm:p-6">
+              <div className="space-y-4 md:space-y-5">
                 <Select
                   label="Season"
                   options={SEASONS.map((s) => ({ value: s, label: s }))}
@@ -152,13 +152,15 @@ export default function AnalyzePage() {
             </Button>
           </form>
 
-          {/* Tips - Collapsed on mobile */}
-          <Card className="mt-6">
-            <h3 className="font-semibold text-sm mb-3">Tips for Best Results</h3>
+          {/* Tips */}
+          <Card className="mt-6 p-4 sm:p-6">
+            <h3 className="font-semibold text-sm md:text-base mb-3">Tips for Best Results</h3>
             <ul className="space-y-2">
-              {["Good lighting", "Full outfit in frame", "Clear image"].map((tip, i) => (
-                <li key={i} className="flex items-center gap-2 text-xs text-[var(--text-secondary)]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]" />
+              {["Good lighting - natural daylight works best", "Show the full outfit from front angle", "Choose a simple background", "Make sure the image is clear and not blurry"].map((tip, i) => (
+                <li key={i} className="flex items-center gap-2 text-xs md:text-sm text-[var(--text-secondary)]">
+                  <svg className="w-4 h-4 text-[var(--accent)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
                   {tip}
                 </li>
               ))}

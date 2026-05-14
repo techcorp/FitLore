@@ -16,16 +16,19 @@ export default function Home() {
         <HowItWorks />
 
         {/* CTA Section */}
-        <section className="py-16 bg-[var(--accent)]">
-          <div className="max-w-lg mx-auto px-4 text-center">
-            <h2 className="text-2xl font-bold text-white mb-2">
+        <section className="py-16 md:py-24 bg-[var(--accent)]">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
               Ready to Elevate Your Style?
             </h2>
-            <p className="text-sm text-white/80 mb-6">
-              Upload your outfit and get instant AI-powered insights.
+            <p className="text-sm sm:text-base md:text-lg text-white/80 mb-8 max-w-2xl mx-auto">
+              Upload your outfit today and get instant AI-powered insights to look your best for any occasion.
             </p>
             <Link href="/analyze">
-              <Button size="lg" className="bg-white text-[var(--accent)] hover:bg-[var(--bg-secondary)] hover:text-[var(--accent)] w-full max-w-xs">
+              <Button
+                size="lg"
+                className="bg-white text-[var(--accent)] hover:bg-[var(--bg-secondary)] hover:text-[var(--accent)]"
+              >
                 Analyze My Outfit Now
               </Button>
             </Link>

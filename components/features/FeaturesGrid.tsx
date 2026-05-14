@@ -13,24 +13,26 @@ const features = [
 
 export default function FeaturesGrid() {
   return (
-    <section id="features" className="py-16 bg-[var(--bg-secondary)]">
-      <div className="max-w-lg mx-auto px-4">
-        <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold mb-2">What FitLore Analyzes</h2>
-          <p className="text-sm text-[var(--text-secondary)]">AI-powered insights for your outfit</p>
+    <section id="features" className="py-16 md:py-24 bg-[var(--bg-secondary)]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-10 md:mb-16">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">What FitLore Analyzes</h2>
+          <p className="text-sm sm:text-base text-[var(--text-secondary)] max-w-xl mx-auto">
+            Our AI examines every aspect of your outfit to provide comprehensive, actionable insights.
+          </p>
         </div>
-        <div className="space-y-3">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {features.map((feature, i) => (
-            <Card key={i} hover className="py-4 px-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-[var(--accent)]/10 flex items-center justify-center flex-shrink-0">
-                  <svg className="w-5 h-5 text-[var(--accent)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <Card key={i} hover className="py-5 px-5 md:py-6 md:px-6">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center flex-shrink-0">
+                  <svg className="w-6 h-6 text-[var(--accent)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={feature.icon} />
                   </svg>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-sm">{feature.title}</h3>
-                  <p className="text-xs text-[var(--text-secondary)]">{feature.description}</p>
+                  <h3 className="font-semibold text-base md:text-lg mb-2">{feature.title}</h3>
+                  <p className="text-sm text-[var(--text-secondary)] leading-relaxed">{feature.description}</p>
                 </div>
               </div>
             </Card>
