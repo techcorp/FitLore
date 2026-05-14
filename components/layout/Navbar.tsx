@@ -13,13 +13,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-9 h-9 md:w-10 md:h-10 rounded-lg md:rounded-xl overflow-hidden shadow-md">
-              <img src="/logo.png" alt="FitLore" className="w-full h-full object-contain" />
-            </div>
-            <span className="text-lg md:text-xl font-bold tracking-tight">
-              <span className="font-[family-name:var(--font-playfair)]">Fit</span>
-              <span className="text-[var(--accent)]">Lore</span>
-            </span>
+            <img src="/logo.png" alt="FitLore" className="w-10 h-10 md:w-12 md:h-12 object-contain" />
           </Link>
 
           {/* Desktop Navigation */}
