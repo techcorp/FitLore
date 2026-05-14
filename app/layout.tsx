@@ -18,6 +18,10 @@ export const metadata: Metadata = {
   title: "FitLore - AI Outfit Analysis",
   description: "Upload your outfit image and get instant AI-powered style analysis with scores, color palettes, and personalized recommendations.",
   keywords: ["AI fashion", "outfit analysis", "style recommendations", "fashion tech", "outfit scoring"],
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+  },
 };
 
 export default function RootLayout({

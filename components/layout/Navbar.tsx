@@ -13,10 +13,8 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-9 h-9 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-[var(--accent)] flex items-center justify-center shadow-md">
-              <svg className="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-              </svg>
+            <div className="w-9 h-9 md:w-10 md:h-10 rounded-lg md:rounded-xl overflow-hidden shadow-md">
+              <img src="/logo.png" alt="FitLore" className="w-full h-full object-contain" />
             </div>
             <span className="text-lg md:text-xl font-bold tracking-tight">
               <span className="font-[family-name:var(--font-playfair)]">Fit</span>
