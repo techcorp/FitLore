@@ -13,7 +13,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <img src="/logo.png" alt="FitLore" className="w-10 h-10 md:w-12 md:h-12 object-contain" />
+            <img src="/logo.png" alt="FitLore" className="w-16 h-16 md:w-20 md:h-20 object-contain" />
           </Link>
 
           {/* Desktop Navigation */}

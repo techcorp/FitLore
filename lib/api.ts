@@ -22,6 +22,72 @@ export const STORAGE_KEYS = {
 // ============================================
 
 /**
+ * Process image by drawing onto canvas and exporting as fresh RGB JPEG
+ * - max width/height: 768px
+ * - JPEG quality: 0.7
+ * - output filename: outfit.jpg
+ * - output type: image/jpeg
+ */
+export async function processImageForN8n(file: File): Promise<Blob> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const objectUrl = URL.createObjectURL(file);
+
+    img.onload = () => {
+      URL.revokeObjectURL(objectUrl);
+
+      // Calculate dimensions while maintaining aspect ratio
+      let width = img.width;
+      let height = img.height;
+      const maxDim = 768;
+
+      if (width > maxDim || height > maxDim) {
+        if (width > height) {
+          height = (height / width) * maxDim;
+          width = maxDim;
+        } else {
+          width = (width / height) * maxDim;
+          height = maxDim;
+        }
+      }
+
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.round(width);
+      canvas.height = Math.round(height);
+
+      const ctx = canvas.getContext("2d");
+      if (!ctx) {
+        reject(new Error("Failed to get canvas context"));
+        return;
+      }
+
+      // Draw image (this converts to RGB automatically)
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+      // Export as JPEG with quality 0.7
+      canvas.toBlob(
+        (blob) => {
+          if (blob) {
+            resolve(blob);
+          } else {
+            reject(new Error("Failed to export canvas as JPEG"));
+          }
+        },
+        "image/jpeg",
+        0.7
+      );
+    };
+
+    img.onerror = () => {
+      URL.revokeObjectURL(objectUrl);
+      reject(new Error("Failed to load image"));
+    };
+
+    img.src = objectUrl;
+  });
+}
+
+/**
  * Submit outfit for AI analysis
  * Sends multipart/form-data to n8n webhook
  */
@@ -31,7 +97,12 @@ export async function submitOutfitAnalysis(
   const payload = new FormData();
 
   if (formData.outfitImage) {
-    payload.append("outfitImage", formData.outfitImage);
+    // Process image: redraw onto canvas and export as fresh RGB JPEG
+    const processedBlob = await processImageForN8n(formData.outfitImage);
+    const processedFile = new File([processedBlob], "outfit.jpg", {
+      type: "image/jpeg",
+    });
+    payload.append("outfitImage", processedFile);
   }
   payload.append("season", formData.season);
   payload.append("occasion", formData.occasion);
