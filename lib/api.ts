@@ -23,8 +23,10 @@ export const STORAGE_KEYS = {
 
 /**
  * Process image by drawing onto canvas and exporting as fresh RGB JPEG
+ * - Accept: JPG, JPEG, PNG, WEBP
+ * - Convert every upload to real JPEG
  * - max width/height: 768px
- * - JPEG quality: 0.7
+ * - JPEG quality: 0.75
  * - output filename: outfit.jpg
  * - output type: image/jpeg
  */
@@ -64,7 +66,7 @@ export async function processImageForN8n(file: File): Promise<Blob> {
       // Draw image (this converts to RGB automatically)
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-      // Export as JPEG with quality 0.7
+      // Export as JPEG with quality 0.75
       canvas.toBlob(
         (blob) => {
           if (blob) {
@@ -74,7 +76,7 @@ export async function processImageForN8n(file: File): Promise<Blob> {
           }
         },
         "image/jpeg",
-        0.7
+        0.75
       );
     };
 
@@ -116,18 +118,18 @@ export async function submitOutfitAnalysis(
       body: payload,
     });
   } catch (networkError) {
-    throw new Error("Unable to connect to the server. Please check that the backend service is running.");
+    throw new Error("We could not analyze this image. Please upload a clear JPG or PNG image and try again.");
   }
 
   if (!response.ok) {
-    const statusText = response.status === 0 ? "Service unavailable" : response.statusText;
-    throw new Error(`Server returned an error: ${response.status} ${statusText}`);
+    // Show clean message instead of raw n8n/Ollama errors
+    throw new Error("We could not analyze this image. Please upload a clear JPG or PNG image and try again.");
   }
 
   try {
     return await response.json();
   } catch {
-    throw new Error("Received an invalid response from the server. Please ensure the backend is running correctly.");
+    throw new Error("We could not analyze this image. Please upload a clear JPG or PNG image and try again.");
   }
 }
 

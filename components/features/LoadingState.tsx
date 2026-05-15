@@ -4,13 +4,10 @@ import { useEffect, useState } from "react";
 import Card from "@/components/ui/Card";
 
 const tips = [
-  "Analyzing outfit composition...",
-  "Checking color harmony...",
-  "Evaluating season suitability...",
-  "Reviewing occasion match...",
-  "Detecting outfit items...",
-  "Generating style recommendations...",
-  "Preparing your fashion report...",
+  "Analyzing outfit...",
+  "Checking colors...",
+  "Reviewing season suitability...",
+  "Preparing style report...",
 ];
 
 export default function LoadingState() {

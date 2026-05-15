@@ -18,7 +18,7 @@ export default function AnalyzePage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [showError, setShowError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("An unexpected error occurred. Please try again.");
+  const [errorMessage, setErrorMessage] = useState("We could not analyze this image. Please upload a clear JPG or PNG image and try again.");
 
   const [formData, setFormData] = useState({
     outfitImage: null as File | null,
@@ -30,12 +30,28 @@ export default function AnalyzePage() {
 
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
 
+  const MAX_FILE_SIZE = 700 * 1024; // 700KB
+
   const validateForm = (): boolean => {
     const errors: Record<string, string> = {};
-    if (!formData.outfitImage) errors.outfitImage = "Please upload an outfit image";
+
+    // Image is selected
+    if (!formData.outfitImage) {
+      errors.outfitImage = "Please upload an outfit image";
+    } else if (formData.outfitImage.size > MAX_FILE_SIZE) {
+      // File size is reasonable
+      errors.outfitImage = `Image must be under 700KB (your file is ${(formData.outfitImage.size / 1024).toFixed(1)}KB)`;
+    }
+
+    // Season is selected
     if (!formData.season) errors.season = "Please select a season";
+
+    // Occasion is selected
     if (!formData.occasion) errors.occasion = "Please select an occasion";
+
+    // Style preference is selected
     if (!formData.stylePreference) errors.stylePreference = "Please select a style preference";
+
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -152,8 +168,8 @@ export default function AnalyzePage() {
             />
 
             {/* Submit */}
-            <Button type="submit" size="lg" className="w-full">
-              Analyze Outfit
+            <Button type="submit" size="lg" className="w-full" disabled={isLoading}>
+              {isLoading ? "Analyzing..." : "Analyze Outfit"}
             </Button>
           </form>
 
